@@ -1,0 +1,41 @@
+# COMANDOS PARA SUBIR O PROJETO PARA O GITHUB
+
+# 1. Configure seu Git (substitua pelos seus dados)
+git config --global user.name "Seu Nome"
+git config --global user.email "seu.email@exemplo.com"
+
+# 2. Inicialize o repositório Git
+git init
+
+# 3. Adicione todos os arquivos
+git add .
+
+# 4. Faça o primeiro commit
+git commit -m "Primeiro commit: Programa de Login Automático"
+
+# 5. Renomeie o branch para main
+git branch -M main
+
+# 6. Adicione o repositório remoto (substitua pela URL do seu repositório)
+git remote add origin https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git
+
+# 7. Envie para o GitHub
+git push -u origin main
+
+# COMANDOS ADICIONAIS ÚTEIS:
+
+# Ver status dos arquivos
+git status
+
+# Ver histórico de commits
+git log --oneline
+
+# Adicionar apenas arquivos específicos
+git add login_automatico.py
+git add README.md
+git add requirements.txt
+
+# Fazer commit de alterações futuras
+git add .
+git commit -m "Descrição da alteração"
+git push
