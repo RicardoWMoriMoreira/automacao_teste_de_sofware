@@ -114,6 +114,61 @@ def teste_practicetestautomation_invalido(driver):
     finally:
         time.sleep(1)
 
+def teste_theinternet_valido(driver):
+    """(SUCESSO ESPERADO) Testa o login válido no the-internet.herokuapp.com."""
+    print("\n--- Iniciando Teste 2.3: The Internet (Login Válido) ---")
+    try:
+        # Verifica se a sessão do driver ainda está válida
+        if not verificar_sessao_driver(driver):
+            print(">>> Teste 2.3 (Válido): ERRO - Sessão do driver inválida.")
+            return False
+            
+        driver.get("https://the-internet.herokuapp.com/login")
+        time.sleep(2)  # Aguarda a página carregar
+        
+        driver.find_element(By.ID, "username").send_keys("tomsmith")
+        driver.find_element(By.ID, "password").send_keys("SuperSecretPassword!")
+        driver.find_element(By.TAG_NAME, "button").click()
+        
+        time.sleep(3)  # Aguarda o redirecionamento
+
+        # Verifica se foi redirecionado para a página segura
+        if "/secure" in driver.current_url:
+            print(">>> Teste 2.3 (Válido): SUCESSO. Login realizado e redirecionado para área segura.")
+        else:
+            print(">>> Teste 2.3 (Válido): FALHA. Não redirecionou para a área segura.")
+    except Exception as e:
+        print(f">>> Teste 2.3 (Válido): Ocorreu um erro inesperado. -> {e}")
+        if "invalid session id" in str(e).lower():
+            print(">>> Detectado erro de sessão inválida.")
+            return False
+    finally:
+        time.sleep(1)
+
+def teste_theinternet_invalido(driver):
+    """(SUCESSO ESPERADO) Testa o login inválido no the-internet.herokuapp.com."""
+    print("\n--- Iniciando Teste 2.4: The Internet (Login Inválido) ---")
+    try:
+        driver.get("https://the-internet.herokuapp.com/login")
+        time.sleep(2)
+        
+        driver.find_element(By.ID, "username").send_keys("tomsmith")
+        driver.find_element(By.ID, "password").send_keys("senha_errada")
+        driver.find_element(By.TAG_NAME, "button").click()
+        
+        time.sleep(2)
+        
+        # Verifica se a mensagem de erro foi exibida
+        mensagem_erro = driver.find_element(By.ID, "flash")
+        if mensagem_erro.is_displayed() and "Your password is invalid!" in mensagem_erro.text:
+            print(">>> Teste 2.4 (Inválido): SUCESSO. Mensagem de erro foi exibida como esperado.")
+        else:
+            print(">>> Teste 2.4 (Inválido): FALHA. Mensagem de erro não foi encontrada ou incorreta.")
+    except Exception as e:
+        print(f">>> Teste 2.4 (Inválido): Ocorreu um erro inesperado. -> {e}")
+    finally:
+        time.sleep(1)
+
 def teste_orangehrm_valido(driver):
     """(SUCESSO ESPERADO) Testa o login válido no OrangeHRM."""
     print("\n--- Iniciando Teste 3.1: OrangeHRM (Login Válido) ---")
@@ -170,6 +225,7 @@ if __name__ == "__main__":
         
         teste_saucedemo_invalido(driver)
         teste_practicetestautomation_invalido(driver)
+        teste_theinternet_invalido(driver)
         teste_orangehrm_invalido(driver)
 
         # Verifica se o driver ainda está válido antes dos testes válidos
@@ -188,6 +244,7 @@ if __name__ == "__main__":
 
         teste_saucedemo_valido(driver)
         teste_practicetestautomation_valido(driver)
+        teste_theinternet_valido(driver)
         teste_orangehrm_valido(driver)
 
         print("\n--- Todos os testes foram concluídos. ---")
